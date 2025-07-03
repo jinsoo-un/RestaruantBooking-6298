@@ -4,6 +4,7 @@
 #include "testable_mail_sender.cpp"
 #include "sunday_booking_scheduler.cpp"
 #include "monday_booking_scheduler.cpp"
+#include "testable_booking_scheduler.cpp"
 
 using namespace testing;
 
@@ -132,7 +133,7 @@ TEST_F(BookingItem, 이메일이있는경우에는이메일발송) {
 
 TEST_F(BookingItem, 현재날짜가일요일인경우예약불가예외처리) {
 	//arrange
-	BookingScheduler* bookingScheduler = new SundayBookingScheduler(CAPACITY_PER_HOUR);
+	BookingScheduler* bookingScheduler = new TestableBookingScheduler(CAPACITY_PER_HOUR, getTime(2021, 3, 28, 17, 0));
 	
 	try {
 		//act
@@ -148,7 +149,7 @@ TEST_F(BookingItem, 현재날짜가일요일인경우예약불가예외처리) {
 
 TEST_F(BookingItem, 현재날짜가일요일이아닌경우예약가능) {
 	//arrange
-	BookingScheduler* bookingScheduler = new MondayBookingScheduler(CAPACITY_PER_HOUR);
+	BookingScheduler* bookingScheduler = new TestableBookingScheduler(CAPACITY_PER_HOUR, getTime(2024, 6, 3, 17, 0));
 
 	//act
 	Schedule* schedule = new Schedule{ ON_THE_HOUR, UNDER_CAPACITY, CUSTOMER_WITH_MAIL };
